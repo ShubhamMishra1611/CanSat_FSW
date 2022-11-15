@@ -24,6 +24,11 @@ public class App  {
     private JPanel velocity_panel;
     private JPanel Some_Sensor_panel;
 
+    //All series of dataset
+    private XYSeries altitude_series=new XYSeries("Altitude");
+    private XYSeries velocity_series=new XYSeries("Velocity");
+    private XYSeries Some_Sensor_series=new XYSeries("Some_Sensor");
+
     //constructor
     public App(){
         prepareGUI();   
@@ -34,8 +39,8 @@ public class App  {
         //open main frame in maximized mode
         mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         mainFrame.setLayout(new FlowLayout());
-        //set icon
-        mainFrame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\user\\Desktop\\icon.png"));
+        //set icon from assets folder
+        mainFrame.setIconImage(Toolkit.getDefaultToolkit().getImage("assets\\icon.png"));
         //mainFrame.setLayout(new GridLayout(3, 1));
         mainFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent){
@@ -101,7 +106,6 @@ public class App  {
             else if( command.equals( "Exit" ) )  {
                 System.exit(0);
             }
-            
         }
     }
 
@@ -149,6 +153,12 @@ public class App  {
         XYSeriesCollection dataset = new XYSeriesCollection(series);
         JFreeChart chart = ChartFactory.createXYLineChart("Some Sensor Readings", "Time (seconds)", "Sensor Reading", dataset, org.jfree.chart.plot.PlotOrientation.HORIZONTAL, false, false, false);
         Some_Sensor_panel.add(new ChartPanel(chart), BorderLayout.CENTER);
+    }
+
+    private void update(int value1,int value2){
+        //update chart and revalidate frame
+        altitude_series.add(value1, value2);
+        mainFrame.revalidate();
     }
 		
 
