@@ -87,11 +87,18 @@ public class App  {
         mainFrame.getContentPane().setBackground(Color.DARK_GRAY);
         mainFrame.setVisible(true);  
         // AddChart();
-        Add_Chart_altitude();
-        Add_Chart_Velocity();
-        Add_Chart_Some_reading();
-        //refresh frame
-        mainFrame.revalidate();
+        while (true){
+            try{
+                Thread.sleep(1000);
+                Add_Chart_altitude();
+                Add_Chart_Velocity();
+                Add_Chart_Some_reading();
+                //refresh frame
+                mainFrame.revalidate();
+            }catch(InterruptedException e){
+                e.printStackTrace();
+            }
+        }
     }
 
     //ActionListener class
@@ -115,11 +122,10 @@ public class App  {
     }
 
     private void Add_Chart_altitude(){
-        String path = "res/Altitude.csv";// To be updated as soon as possible
+        String path = "res/Altitude.csv";
         this.read(path);
 		XYSeriesCollection dataset = new XYSeriesCollection(altitude_series);
         JFreeChart chart = ChartFactory.createXYLineChart("Altitude Sensor Reading", "Altitude", "Package number", dataset, org.jfree.chart.plot.PlotOrientation.VERTICAL, false, false, false);
-		//change chart size
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setPreferredSize(new java.awt.Dimension(600, 300));
         altitude_panel.add(chartPanel);
@@ -138,7 +144,6 @@ public class App  {
     }
 
     private void Add_Chart_Some_reading(){
-        // XYSeries series = new XYSeries("Light Sensor Readings");
         String path = "res/Sensor.csv";// To be updated as soon as possible
         this.read(path);
         XYSeriesCollection dataset = new XYSeriesCollection(Some_Sensor_series);
@@ -166,7 +171,6 @@ public class App  {
                         altitude_series.add(Double.parseDouble(tempArr[0]), Double.parseDouble(tempArr[1]));
                         break;
                     case "Velocity.csv":
-                        // timeSeries.add(getlas, Double.parseDouble(tempArr[1]));
                         velocity_series.add(Double.parseDouble(tempArr[0]), Double.parseDouble(tempArr[1]));
                         break;
                     case "Sensor.csv":
