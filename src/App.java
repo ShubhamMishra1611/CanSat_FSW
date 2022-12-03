@@ -12,8 +12,6 @@ import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.data.time.Second;
-import org.jfree.data.time.TimeSeries;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -35,7 +33,6 @@ public class App  {
     private XYSeries altitude_series=new XYSeries("Altitude");
     private XYSeries velocity_series=new XYSeries("Velocity");
     private XYSeries Some_Sensor_series=new XYSeries("Some_Sensor");
-    private static TimeSeries timeSeries = new TimeSeries("Time");
 
     //constructor
     public App(){
@@ -116,24 +113,15 @@ public class App  {
             }
         }
     }
-//#region
-    // public void AddChart(){
-    //     //chart panel  from Jfreechart
-    //     ChartPanel chartPanel = new ChartPanel(createChart());
-    //     chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
-    //     // chartPanel.setMouseWheelEnabled(true);
-    //     panel.add(chartPanel);
-    // }
-    //#endregion
 
     private void Add_Chart_altitude(){
         String path = "res/Altitude.csv";// To be updated as soon as possible
         this.read(path);
 		XYSeriesCollection dataset = new XYSeriesCollection(altitude_series);
-        JFreeChart chart = ChartFactory.createXYLineChart("Altitude Sensor Reading", "Altitude", "Package number", dataset, org.jfree.chart.plot.PlotOrientation.HORIZONTAL, false, false, false);
+        JFreeChart chart = ChartFactory.createXYLineChart("Altitude Sensor Reading", "Altitude", "Package number", dataset, org.jfree.chart.plot.PlotOrientation.VERTICAL, false, false, false);
 		//change chart size
         ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
+        chartPanel.setPreferredSize(new java.awt.Dimension(600, 300));
         altitude_panel.add(chartPanel);
         altitude_panel.add(new ChartPanel(chart), BorderLayout.CENTER);
     }
@@ -142,9 +130,9 @@ public class App  {
         String path = "res/Velocity.csv";// To be updated as soon as possible
         this.read(path);
         XYSeriesCollection dataset = new XYSeriesCollection(velocity_series);
-        JFreeChart chart = ChartFactory.createXYLineChart("Velocity Readings", "Velocity", "Package Number", dataset, org.jfree.chart.plot.PlotOrientation.HORIZONTAL, false, false, false);
+        JFreeChart chart = ChartFactory.createXYLineChart("Velocity Readings", "Velocity", "Package Number", dataset, org.jfree.chart.plot.PlotOrientation.VERTICAL, false, false, false);
         ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
+        chartPanel.setPreferredSize(new java.awt.Dimension(600, 300));
         velocity_panel.add(chartPanel);
         velocity_panel.add(new ChartPanel(chart), BorderLayout.CENTER);
     }
@@ -154,7 +142,7 @@ public class App  {
         String path = "res/Sensor.csv";// To be updated as soon as possible
         this.read(path);
         XYSeriesCollection dataset = new XYSeriesCollection(Some_Sensor_series);
-        JFreeChart chart = ChartFactory.createXYLineChart("Some Sensor Readings", "Some Sensor", "Package Number", dataset, org.jfree.chart.plot.PlotOrientation.HORIZONTAL, false, false, false);
+        JFreeChart chart = ChartFactory.createXYLineChart("Some Sensor Readings", "Some Sensor", "Package Number", dataset, org.jfree.chart.plot.PlotOrientation.VERTICAL, false, false, false);
         Some_Sensor_panel.add(new ChartPanel(chart), BorderLayout.CENTER);
     }
     /**
@@ -165,7 +153,6 @@ public class App  {
      * @exception IOException ioe
      */
     public void read(String csvFile){
-        // String datatype="res/Altitude.csv";
         try {
             File file = new File(csvFile);
             FileReader fr = new FileReader(file);
@@ -174,7 +161,6 @@ public class App  {
             String[] tempArr;
             while((line = br.readLine())!=null){
                 tempArr = line.split(delimiter);
-                System.out.println(tempArr[0]);
                 switch (csvFile.substring(4)) {
                     case "Altitude.csv":
                         altitude_series.add(Double.parseDouble(tempArr[0]), Double.parseDouble(tempArr[1]));
@@ -196,18 +182,6 @@ public class App  {
             ioe.printStackTrace();
         }
     }
-//#region comment
-    // private JFreeChart createChart() {
-    //     // plot a sin wave
-    //     XYSeries series = new XYSeries("sin(x)");
-    //     for (int i = 0; i < 100; i++) {
-    //         series.add(i, Math.sin(i / 10.0));
-    //     }
-    //     XYSeriesCollection dataset = new XYSeriesCollection(series);
-    //     JFreeChart chart = ChartFactory.createXYLineChart("sin(x)", "x", "sin(x)", dataset, null, false, false, false);
-    //     return chart;
-    // }
-    //#endregion
 
 
 
